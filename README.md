@@ -76,10 +76,11 @@ Project/
     all : [['7', '1', 30], ['8', '2', 40], ...]  | #[room number, amount, price]
     
 
-⚠️ Since we I used pickle to store files, be careful not to modify the data files.
-
 Three accounts are perbuilt --> Mamootov: '1234', MMD: '.', '':'' 
+
 You can check their reserves
+
+⚠️ Since we I used pickle to store files, be careful not to modify the data files.
 ---
 
 ## ⚙️ Requirements
