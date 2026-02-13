@@ -37,7 +37,7 @@ class Signin(Auth):
     """
     def dir_signer(self):
         try: #If the file is empty dosnt crash
-            users = user.lloader("users_dir") 
+            users: dict = user.lloader("users_dir") 
         except:
             users = {}
         self.name = f"{window6.name.text()} {window6.lastname.text()}"
@@ -55,7 +55,7 @@ class Signin(Auth):
         This methode is not safe, I would add hash for the password
         """
         try: #If the file is empty dosnt crash
-            users = login.secret() 
+            users: dict = login.secret() 
         except:
             users = {}
         self.usr = window6.username.text()
@@ -116,7 +116,7 @@ class Hotel(Auth):
 
 
 
-    def room_finder(self, city, enter_time, exit_time, amount):
+    def room_finder(self, city, enter_time, exit_time, amount):  #AI wa here before :), AI's idea was better for overlapping
         with open(resource_path("data", f"{city}.txt"), "rb") as f:
             data = pickle.load(f)
 
@@ -158,13 +158,13 @@ class Hotel(Auth):
 
     def founded_rooms(self):
         des, date_enter, date_exit, amount = hotel.inputer()
-        rooms = self.room_finder(des, date_enter, date_exit, amount)
+        rooms: list = self.room_finder(des, date_enter, date_exit, amount)  #rooms -> [room number, reserve number]
         self.rooms = rooms
 
     def myroom(self):
         window3.show()
         users: dict = user.lloader("users_dir")
-        balance: int = users[Session.usr]['balance']  #Would add .get() for better Error handling
+        balance: int = users.get(Session.usr).get('balance', 0) 
         window3.balance_dis.clear()
         window3.balance_dis.append(str(balance))
         window3.namelog.clear()
@@ -180,14 +180,14 @@ class Hotel(Auth):
         window2.close()
         window4.main_log.clear()
         des, date_enter, date_exit, amount = hotel.inputer()
-        des_f = user.lloader(des)
-        all_rooms = des_f[2]
+        des_f: dict = user.lloader(des)
+        all_rooms: list = des_f[2]
 
         if len(rooms) != 0:
             window4.main_log.append("  شماره رزرو                                                        قیمت    |   مقصد   |  زمان خروج  →  زمان ورود | ظرفیت اتاق    ") #This part is not compatible with the UI.
             for room in rooms:
                 for r in all_rooms:
-                    if r[0] == room[0]:
+                    if r[0] == room[0]:  #Checks for room number
                         amount = r[1]  #if the amount == 0(user wanted to check for every room) the amount will not be true, so it checks it
                         Oprice = r[2]
                         delta = user.date_d(date_enter, date_exit)
@@ -207,7 +207,7 @@ class Hotel(Auth):
     def reserve_number(self):
         return window4.res_num.text()
     
-    def reserve_checker(self):
+    def reserve_checker(self) -> bool:
         """
         Checks if the reserve number input available or not.
         """
@@ -218,6 +218,9 @@ class Hotel(Auth):
 
 
     def main_reserve(self):
+        """
+        obvously its not main, actually prints reserve results
+        """
         window4.close()
         window5.log_conf.clear()
         window5.show()
@@ -234,6 +237,7 @@ class Hotel(Auth):
         serach in user history and checks the exit date with today.
         """
         def expired_shower(expired: list, exp_soon: list):
+            """makes the notify page"""
             window10.notife.clear()
             if (expired or exp_soon):
                 window10.show()
@@ -251,10 +255,10 @@ class Hotel(Auth):
                 return
 
         with open(resource_path("data", "users_dir.txt"), 'rb') as f:
-            users_dir : list = pickle.load(f)
-        muser : dict  = users_dir.get(Session.usr)
-        on_going : list = muser.get('on going')
-        history : list = muser.get('history')
+            users_dir: dict = pickle.load(f)
+        muser: dict  = users_dir.get(Session.usr)
+        on_going: list = muser.get('on going')
+        history: list = muser.get('history')
         expired = []
         exp_soon = []
         for room in on_going[:]:
@@ -276,14 +280,14 @@ class Hotel(Auth):
 
 
         
-    def cancel_checker(self):
+    def cancel_checker(self) -> bool:
         """
-        Not only a checker, but also changes the status to "canceled"
+        Not only a checker, but also changes the reserve status to "canceled" and moves the reserve from "on going" to "history"
         """
         cancel_num = window3.cancel_num.text()
-        users = user.lloader("users_dir")
-        on_going = users[Session.usr]["on going"]
-        history = users[Session.usr]['history']
+        users: dict = user.lloader("users_dir")
+        on_going: list = users[Session.usr]["on going"]
+        history: list = users[Session.usr]['history']
         for room in on_going[:]:
             room: dict
             if str(room.get('reserve_number')) == str(cancel_num):
@@ -291,18 +295,18 @@ class Hotel(Auth):
                     money = int(room.get('price')/2)  #returns half of the price 
                 except TypeError:
                     money = 0
-                des = room.get('des')
+                des: str = room.get('des')  #destination name
                 on_going.remove(room)
                 history.append(room)
                 history[-1]['status'] = "کنسل شده"
-                users[Session.usr]['on going'] = on_going
-                users[Session.usr]['history'] = history
+                users[Session.usr]['on going'] = on_going   #updates on going and history
+                users[Session.usr]['history'] = history     #...   
                 user.dumper("users_dir", users)
                 self.des_cancel(des)
                 today = datetime.datetime.today().date()
                 enter_date = room.get('d_enter', today)
-                if user.date_d(today, enter_date) >= 2:
-                    if user.money_retuner(money):  
+                if user.date_d(today, enter_date) >= 2:   #Checks for the 48 hour time
+                    if user.money_retuner(money):    #if the money == 0: upper if, will do this statment's job
                         window8.cancel_text.append(f"مبلغ {money} به دلیل باقی ماندن بیش از 48 ساعت از رزرو به حسابتان بازگشت.")
                 return True
         return False
@@ -321,7 +325,7 @@ class Hotel(Auth):
 
     def des_cancel(self, destination):
         """
-        Deletes the canceled reserve on the des
+        Deletes the canceled reserve on the destination file
         """
         des = user.lloader(f"{destination}")
         cancel_num = window3.cancel_num.text()
@@ -341,8 +345,6 @@ class User(Auth):
     Execpt on lloader and dumper, Here are Client side functions
     """
 
-
-
     def lloader(self, Fname):
         with open(resource_path("data", f"{Fname}.txt"), 'rb') as f:
             return pickle.load(f)
@@ -351,13 +353,13 @@ class User(Auth):
         with open(resource_path("data", f"{Fname}.txt"), 'wb') as f:
             pickle.dump(data, f)
 
-    def generate_reserve_code(self):
+    def generate_reserve_code(self) -> int:  #AI was also here, the uuid idea was better than my random.randint idea
         users = self.lloader("users_dir")
         existing_codes = set()
-        for u in users.values():
-            for r in u["on going"]:
+        for uid in users.values():
+            for r in uid["on going"]:
                 existing_codes.add(str(r["reserve_number"]))
-            for r in u["history"]:
+            for r in uid["history"]:
                 existing_codes.add(str(r["reserve_number"]))
         while True:
             code = str(random.randint(10000, 99999))
@@ -380,13 +382,13 @@ class User(Auth):
 
 
 
-    def date_d(self, t1, t2): #List comperhension Skills HAHAHAHA
+    def date_d(self, t_start, t_finish): #List comperhension Skills HAHAHA
         """
         calculate the time diffrence
         it was a shame that didnt used datetime.delta
         """
-        t1 = str(t1).split('-')
-        t2 = str(t2).split('-')
+        t1 = str(t_start).split('-')
+        t2 = str(t_finish).split('-')
 
         a = [int(x) for x in t1]
         b = [int(x) for x in t2]
@@ -418,13 +420,16 @@ class User(Auth):
         return days*price
         
 
-    def balance_checker(self, price):
+    def balance_checker(self, price) -> bool:
         users_dir : dict = self.lloader("users_dir")
         muser : dict = users_dir.get(Session.usr)
         balance = muser.get("balance")
         return (balance >= price)
 
     def reserve(self):
+        """
+        It was better to break this function to other functions and connects them
+        """
         def room_remover(des_file):
             des_file[1].append([str(room_number), date_enter, date_exit, str(reserve_number)])
             try: #There are some reserved room that can be reserved in another time
@@ -442,8 +447,8 @@ class User(Auth):
             
             for room in hotel.rooms:
                 if room[1] == reserve_number:
-                    room_number = str(room[0])
-                    for r in all_rooms:
+                    room_number = str(room[0])  #Finds the room number from reserve number
+                    for r in all_rooms:         #finds the amount from the destination file
                         if r[0] == room[0]:
                             amount = r[1]
 
