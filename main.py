@@ -184,12 +184,15 @@ class Hotel(Auth):
         all_rooms = des_f[2]
 
         if len(rooms) != 0:
-            window4.main_log.append("  شماره رزرو                                                                     مقصد   |  زمان خروج  →  زمان ورود | ظرفیت اتاق    ") #This part is not compatible with the UI.
+            window4.main_log.append("  شماره رزرو                                                        قیمت    |   مقصد   |  زمان خروج  →  زمان ورود | ظرفیت اتاق    ") #This part is not compatible with the UI.
             for room in rooms:
                 for r in all_rooms:
                     if r[0] == room[0]:
                         amount = r[1]  #if the amount == 0(user wanted to check for every room) the amount will not be true, so it checks it
-                window4.main_log.append(f"    {room[1]}                                                                        {des}   |   {date_exit} → {date_enter}   |   {amount} ")
+                        Oprice = r[2]
+                        delta = user.date_d(date_enter, date_exit)
+                        price = Oprice * delta
+                window4.main_log.append(f"    {room[1]}                                                          {price}  |  {des}   |   {date_exit} → {date_enter}   |   {amount} ")
         else:
             window4.main_log.append("در تاریخ انتخاب شده اتاقی وجود ندارد.")
 
