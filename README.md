@@ -104,7 +104,6 @@ pip install PySide6
 3. Run the main Python file:
 
     python main.py
-
 ---
 
 ## ⚠️ Important Notes
