@@ -89,8 +89,9 @@ You can check their reserves
 - Standard Python modules: `pickle`, `datetime`, `random`, `os`, `sys`  
 
 Install PySide6 with:
-
+```bash
 pip install PySide6
+```
 
 ---
 
@@ -101,9 +102,8 @@ pip install PySide6
 2. Open a terminal and navigate to the project folder.
 
 3. Run the main Python file:
-```bash
+
     python main.py
-```
 ---
 
 ## ⚠️ Important Notes
