@@ -157,7 +157,7 @@ class Hotel(Auth):
         window2.passengers.text() )
 
     def founded_rooms(self):
-        des, date_enter, date_exit, amount = Hotel().inputer()
+        des, date_enter, date_exit, amount = hotel.inputer()
         rooms = self.room_finder(des, date_enter, date_exit, amount)
         self.rooms = rooms
 
@@ -179,7 +179,7 @@ class Hotel(Auth):
         window4.show()
         window2.close()
         window4.main_log.clear()
-        des, date_enter, date_exit, amount = Hotel().inputer()
+        des, date_enter, date_exit, amount = hotel.inputer()
         des_f = user.lloader(des)
         all_rooms = des_f[2]
 
@@ -192,7 +192,11 @@ class Hotel(Auth):
                         Oprice = r[2]
                         delta = user.date_d(date_enter, date_exit)
                         price = Oprice * delta
-                window4.main_log.append(f"    {room[1]}                                                          {price}  |  {des}   |   {date_exit} → {date_enter}   |   {amount} ")
+                        max_price = window2.max_price.text()
+                        if (max_price == None) or (max_price == ""):
+                            window4.main_log.append(f"    {room[1]}                                                          {price}  |  {des}   |   {date_exit} → {date_enter}   |   {amount} ")
+                        elif price < int(max_price):
+                            window4.main_log.append(f"    {room[1]}                                                          {price}  |  {des}   |   {date_exit} → {date_enter}   |   {amount} ")
         else:
             window4.main_log.append("در تاریخ انتخاب شده اتاقی وجود ندارد.")
 
