@@ -11,8 +11,7 @@ This project is a hotel reservation system built with **Python** and **PySide6**
 ## 📂 Project Structure
 
 Project/
-
-│
+|
 
 ├─ ui/ # Qt Designer UI files
 
@@ -76,11 +75,11 @@ Project/
     all : [['7', '1', 30], ['8', '2', 40], ...]  | #[room number, amount, price]
     
 
-Three accounts are perbuilt --> Mamootov: '1234', MMD: '.', '':'' 
+Three accounts are perbuilt --> Mamootov: '1234' , MMD: '.' , '':'' 
 
 You can check their reserves
 
-⚠️ Since we I used pickle to store files, be careful not to modify the data files.
+⚠️ Since pickle is used to store files, be careful not to modify the data files.
 ---
 
 ## ⚙️ Requirements
@@ -90,8 +89,9 @@ You can check their reserves
 - Standard Python modules: `pickle`, `datetime`, `random`, `os`, `sys`  
 
 Install PySide6 with:
-
+```bash
 pip install PySide6
+```
 
 ---
 
