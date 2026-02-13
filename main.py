@@ -278,7 +278,12 @@ class Hotel(Auth):
         on_going = users[Session.usr]["on going"]
         history = users[Session.usr]['history']
         for room in on_going[:]:
+            room: dict
             if str(room.get('reserve_number')) == str(cancel_num):
+                try:
+                    money = int(room.get('price')/2)  #returns half of the price 
+                except TypeError:
+                    money = 0
                 des = room.get('des')
                 on_going.remove(room)
                 history.append(room)
@@ -287,10 +292,11 @@ class Hotel(Auth):
                 users[Session.usr]['history'] = history
                 user.dumper("users_dir", users)
                 self.des_cancel(des)
-                enter_date = room.get('d_enter', datetime.datetime.today().date())
-                money = user.money_retuner(enter_date)
-                if money:
-                    window8.cancel_text.append(f"مبلغ {money} به دلیل باقی ماندن بیش از 48 ساعت از رزرو به حسابتان بازگشت.")
+                today = datetime.datetime.today().date()
+                enter_date = room.get('d_enter', today)
+                if user.date_d(today, enter_date) >= 2:
+                    if user.money_retuner(money):  
+                        window8.cancel_text.append(f"مبلغ {money} به دلیل باقی ماندن بیش از 48 ساعت از رزرو به حسابتان بازگشت.")
                 return True
         return False
     
@@ -351,22 +357,18 @@ class User(Auth):
             if code not in existing_codes:
                 return code
 
-    def money_retuner(self, date_enter):
+    def money_retuner(self, money):
         """
         calculate and return the money that should be returned.
         """
         users = self.lloader("users_dir")
         balance = users[Session.usr]['balance']
-        today = datetime.datetime.today().date()
-        if self.date_d(today, date_enter) >= 2:  #Checks for 48 hour payback
-            money = int(self.room_price()/2)
-            balance += money
-            users[Session.usr]['balance'] = balance
-            self.dumper("users_dir", users)
-            window3.balance_dis.clear()
-            window3.balance_dis.append(str(balance))
-            return money
-        return None
+        balance +=  money
+        users[Session.usr]['balance'] = balance
+        self.dumper("users_dir", users)
+        window3.balance_dis.clear()
+        window3.balance_dis.append(str(balance))
+        return money
 
 
 
@@ -439,13 +441,13 @@ class User(Auth):
                             amount = r[1]
 
             users = self.lloader("users_dir")
-            info = users.get(Session.usr)
+            info: dict = users.get(Session.usr)
             price = self.room_price()
             
             if user.balance_checker(price):
                 if info:#Checks if user exist in users_dir
-                    reserve_info = {"reserve_number": reserve_number, "d_enter": date_enter, "d_exit": date_exit, "des": des, "amount": amount, "room_number": room_number}  #Here is How the data saves in history/on going
-                    going = info.get("on going")
+                    reserve_info = {"reserve_number": reserve_number, "d_enter": date_enter, "d_exit": date_exit, "des": des, "amount": amount, "room_number": room_number, 'price': price}  #Here is How the data saves in history/on going
+                    going: list = info.get("on going")
                     going.append(reserve_info)
                     
                     info['balance'] -= price
@@ -458,7 +460,7 @@ class User(Auth):
                     print(f"ERROR in reserving for {Session.usr}")
 
         reenter.after_res()
-            
+
 
     def on_going(self):
         """
@@ -474,7 +476,7 @@ class User(Auth):
         else:
             window3.mainlog.append("به نظر میرسه رزوری ندارید")
 
-    
+
     def history(self):
         """
         same as on going
