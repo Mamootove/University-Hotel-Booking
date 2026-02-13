@@ -1,4 +1,5 @@
 Welcome!
+
 This project is still under develope.
 
 # Hotel Reservation System
@@ -10,27 +11,48 @@ This project is a hotel reservation system built with **Python** and **PySide6**
 ## 📂 Project Structure
 
 Project/
+
 │
-├─ ui/               # Qt Designer UI files
-│   ├─ lg.ui
-│   ├─ htl.ui
-│   ├─ myrms.ui
-│   ├─ res.ui
-│   ├─ cnf.ui
-│   ├─ sign.ui
-│   ├─ usernameERR.ui
-│   ├─ cancel.ui
-│   ├─ wrong_pas.ui
-│   ├─ notife.ui
-│   └─ low_balance.ui
+
+├─ ui/ # Qt Designer UI files
+
+│ ├─ lg.ui
+
+│ ├─ htl.ui
+
+│ ├─ myrms.ui
+
+│ ├─ res.ui
+
+│ ├─ cnf.ui
+
+│ ├─ sign.ui
+
+│ ├─ usernameERR.ui
+
+│ ├─ cancel.ui
+
+│ ├─ wrong_pas.ui
+
+│ ├─ notife.ui
+
+│ └─ low_balance.ui
+
 │
-├─ data/             # Data storage files
-│   ├─ users.txt      # Usernames and passwords
-│   ├─ users_dir.txt  # User information, ongoing reservations, history
-│   └─ <city>.txt     # Room and reservation info for each city | There are several city files
+
+├─ data/ # Data storage files
+
+│ ├─ users.txt # Usernames and passwords
+
+│ ├─ users_dir.txt # User information, ongoing reservations, history
+
+│ └─ <city>.txt # Room and reservation info for each city
+
 │
-├─ main.py           # Main Python code
-└─ README.md         # Project guide
+
+├─ main.py # Main Python code
+
+└─
 
 ---
 ## Files Structuere
@@ -54,7 +76,10 @@ Project/
     all : [['7', '1', 30], ['8', '2', 40], ...]  | #[room number, amount, price]
     
 
-Since we are using pickle to store files, be careful not to modify the data files.
+⚠️ Since we I used pickle to store files, be careful not to modify the data files.
+
+Three accounts are perbuilt --> Mamootov: '1234', MMD: '.', '':'' 
+You can check their reserves
 ---
 
 ## ⚙️ Requirements
@@ -86,6 +111,3 @@ pip install PySide6
 - Passwords are not hashed, so security is low.
 - Data is stored using pickle; avoid manual file changes.
 - UI is built with Qt Designer and loaded using QUiLoader.
-
----
-
