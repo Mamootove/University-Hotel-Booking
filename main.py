@@ -116,7 +116,7 @@ class Hotel(Auth):
 
 
 
-    def room_finder(self, city, enter_time, exit_time, amount):  #AI wa here before :), AI's idea was better for overlapping
+    def room_finder(self, city, enter_time, exit_time, amount):  #AI was here before :), AI's idea was better for overlapping
         with open(resource_path("data", f"{city}.txt"), "rb") as f:
             data = pickle.load(f)
 
@@ -193,9 +193,7 @@ class Hotel(Auth):
                         delta = user.date_d(date_enter, date_exit)
                         price = Oprice * delta
                         max_price = window2.max_price.text()
-                        if (max_price == None) or (max_price == ""):
-                            window4.main_log.append(f"    {room[1]}                                                          {price}  |  {des}   |   {date_exit} → {date_enter}   |   {amount} ")
-                        elif price < int(max_price):
+                        if (max_price == None) or (max_price == "") or (price <= int(max_price)):
                             window4.main_log.append(f"    {room[1]}                                                          {price}  |  {des}   |   {date_exit} → {date_enter}   |   {amount} ")
         else:
             window4.main_log.append("در تاریخ انتخاب شده اتاقی وجود ندارد.")
@@ -250,7 +248,7 @@ class Hotel(Auth):
                     window10.notife.append("--رزرو هایی که به زودی منقضی میشوند--")
                     for exp in exp_soon:
                         window10.notife.append(f"رزور شما به {exp.get('reserve_number')} ، به مقصد {exp.get('des')} ، در تاریخ {exp.get('d_exit')} منقضی خواهد شد.")
-                    window10.notife.append("\nاگر فکر میکنید مشکلی پیش امده با پشتیبانی تماس بگیرید.")
+                window10.notife.append("\nاگر فکر میکنید مشکلی پیش امده با پشتیبانی تماس بگیرید.")
             else:
                 return
 
@@ -386,6 +384,7 @@ class User(Auth):
         """
         calculate the time diffrence
         it was a shame that didnt used datetime.delta
+        t_start and finish : "yyyy-mm-dd"
         """
         t1 = str(t_start).split('-')
         t2 = str(t_finish).split('-')
@@ -573,7 +572,10 @@ login = Login()
 reenter = Reenter()
 signin = Signin()
 
-#I asked AI for this and obviously learned nothing
+
+
+
+#AI was here before
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 def resource_path(*paths):
     return os.path.join(BASE_DIR, *paths)
