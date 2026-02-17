@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QApplication
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
 from PySide6.QtCore import QDate
+import argon2
 import pickle
 import datetime
 import random
@@ -59,7 +60,7 @@ class Signin(Auth):
         except:
             users = {}
         self.usr = window6.username.text()
-        self.pas = window6.pas.text()
+        self.pas = argon2.PasswordHasher().hash(str(window6.pas.text()))
         if users.get(self.usr, None) == None:
             users[self.usr] = self.pas
             user.dumper("users", users)
@@ -85,16 +86,15 @@ class Login(Auth):
     def main_log(self):
         self.usr = window1.usrname.text()
         self.pas = window1.passwd.text()
-        users = self.secret() #all the users are here, Again this is not safe.
+        users: dict = self.secret()
+        hashed_password = users.get(self.usr)
 
-        if users.get(self.usr) == self.pas:
-            self.flag = True
+        if not hashed_password:  #if user doesnt exist in database handels the Nonetype Err in argon2
+            window9.show()
+            return
 
-        log = f"{self.usr} --> {self.pas}, {datetime.datetime.now()}, {self.flag}\n"
-        with open(resource_path("data", "log.txt"), 'a') as f:
-            f.write(log)
-
-        if self.flag:
+        try:
+            self.flag = argon2.PasswordHasher().verify(hashed_password, self.pas)
             Session.usr = self.usr
             Session.flag = self.flag
             window1.close()
@@ -102,9 +102,13 @@ class Login(Auth):
             window3.balance_dis.clear()
             window2.show()
             hotel.date_checker()  #Checks for expired reservations
-        else:
+        except (argon2.exceptions.VerifyMismatchError, argon2.exceptions.InvalidHashError):
+            self.flag = False
             window9.show()
 
+        log = f"{self.usr} --> (assume this is the IP), {datetime.datetime.now()}, {self.flag}\n"
+        with open(resource_path("data", "log.txt"), 'a') as f:
+            f.write(log)
 
 
 
