@@ -1,6 +1,6 @@
 Welcome!
 
-This project is still under develope.
+This project is still under develop.
 
 # Hotel Reservation System
 
