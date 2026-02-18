@@ -10,49 +10,32 @@ This project is a hotel reservation system built with **Python** and **PySide6**
 
 ## 📂 Project Structure
 
+```
+
 Project/
 |
-
 ├─ ui/ # Qt Designer UI files
-
 │ ├─ lg.ui
-
 │ ├─ htl.ui
-
 │ ├─ myrms.ui
-
 │ ├─ res.ui
-
 │ ├─ cnf.ui
-
 │ ├─ sign.ui
-
 │ ├─ usernameERR.ui
-
 │ ├─ cancel.ui
-
 │ ├─ wrong_pas.ui
-
 │ ├─ notife.ui
-
 │ └─ low_balance.ui
-
 │
-
 ├─ data/ # Data storage files
-
 │ ├─ users.txt # Usernames and passwords
-
 │ ├─ users_dir.txt # User information, ongoing reservations, history
-
 │ └─ <city>.txt # Room and reservation info for each city
-
 │
-
 ├─ main.py # Main Python code
-
 └─
 
+```
 ---
 ## Files Structuere
 ./data/
