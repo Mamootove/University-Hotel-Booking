@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>584</width>
-    <height>638</height>
+    <height>740</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget{
-    background-color: rgb(20, 20, 20);
+    background-color: rgb(18, 18, 18);
 }
 QFrame{
     background-color: rgb(34, 34, 34);
@@ -37,14 +37,15 @@ QPushButton:hover{
 
 }
 QLineEdit{
-    background-color: rgb(29, 29, 29);
+    background-color: rgb(25, 25, 25);
     font-size: 13px;
+	border-radius : 10px
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_3">
+   <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <layout class="QGridLayout" name="gridLayout">
+     <layout class="QGridLayout" name="gridLayout_3">
       <property name="leftMargin">
        <number>50</number>
       </property>
@@ -58,23 +59,23 @@ QLineEdit{
        <number>30</number>
       </property>
       <item row="0" column="0">
-       <widget class="QFrame" name="frame">
+       <widget class="QFrame" name="frame_2">
         <property name="frameShape">
          <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
          <enum>QFrame::Shadow::Raised</enum>
         </property>
-        <layout class="QGridLayout" name="gridLayout_2">
+        <layout class="QGridLayout" name="gridLayout_4">
          <item row="0" column="0">
-          <layout class="QVBoxLayout" name="verticalLayout">
+          <layout class="QVBoxLayout" name="verticalLayout_7">
            <property name="spacing">
             <number>0</number>
            </property>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
-              <spacer name="horizontalSpacer">
+              <spacer name="horizontalSpacer_5">
                <property name="orientation">
                 <enum>Qt::Orientation::Horizontal</enum>
                </property>
@@ -87,14 +88,14 @@ QLineEdit{
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="label_5">
+              <widget class="QLabel" name="label_6">
                <property name="text">
                 <string>Sign in</string>
                </property>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer_2">
+              <spacer name="horizontalSpacer_6">
                <property name="orientation">
                 <enum>Qt::Orientation::Horizontal</enum>
                </property>
@@ -109,7 +110,7 @@ QLineEdit{
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_6">
+            <layout class="QVBoxLayout" name="verticalLayout_8">
              <property name="spacing">
               <number>20</number>
              </property>
@@ -120,12 +121,12 @@ QLineEdit{
               <number>20</number>
              </property>
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_4">
+              <layout class="QVBoxLayout" name="verticalLayout_9">
                <property name="spacing">
                 <number>10</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_3">
+                <widget class="QLabel" name="label_7">
                  <property name="text">
                   <string>Name</string>
                  </property>
@@ -139,17 +140,31 @@ QLineEdit{
                    <height>40</height>
                   </size>
                  </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
                 </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                 <item>
+                  <widget class="QLabel" name="inv_name">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_5">
+              <layout class="QVBoxLayout" name="verticalLayout_10">
                <property name="spacing">
                 <number>10</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_4">
+                <widget class="QLabel" name="label_8">
                  <property name="text">
                   <string>Lastname</string>
                  </property>
@@ -165,15 +180,22 @@ QLineEdit{
                  </property>
                 </widget>
                </item>
+               <item>
+                <widget class="QLabel" name="inv_last">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_2">
+              <layout class="QVBoxLayout" name="verticalLayout_11">
                <property name="spacing">
                 <number>10</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_2">
+                <widget class="QLabel" name="label_9">
                  <property name="text">
                   <string>Username</string>
                  </property>
@@ -189,15 +211,22 @@ QLineEdit{
                  </property>
                 </widget>
                </item>
+               <item>
+                <widget class="QLabel" name="inv_user">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_3">
+              <layout class="QVBoxLayout" name="verticalLayout_12">
                <property name="spacing">
                 <number>10</number>
                </property>
                <item>
-                <widget class="QLabel" name="label">
+                <widget class="QLabel" name="label_10">
                  <property name="text">
                   <string>Password</string>
                  </property>
@@ -214,7 +243,14 @@ QLineEdit{
                 </widget>
                </item>
                <item>
-                <spacer name="verticalSpacer">
+                <widget class="QLabel" name="inv_pas">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_2">
                  <property name="orientation">
                   <enum>Qt::Orientation::Vertical</enum>
                  </property>
@@ -230,9 +266,9 @@ QLineEdit{
                 </spacer>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
                  <item>
-                  <spacer name="horizontalSpacer_3">
+                  <spacer name="horizontalSpacer_7">
                    <property name="orientation">
                     <enum>Qt::Orientation::Horizontal</enum>
                    </property>
@@ -267,7 +303,7 @@ QLineEdit{
                   </widget>
                  </item>
                  <item>
-                  <spacer name="horizontalSpacer_4">
+                  <spacer name="horizontalSpacer_8">
                    <property name="orientation">
                     <enum>Qt::Orientation::Horizontal</enum>
                    </property>

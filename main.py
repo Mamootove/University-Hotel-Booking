@@ -59,20 +59,59 @@ class Signin(Auth):
             users: dict = login.secret() 
         except:
             users = {}
-        self.usr = window6.username.text()
-        self.pas = argon2.PasswordHasher().hash(str(window6.pas.text()))
-        if users.get(self.usr, None) == None:
-            users[self.usr] = self.pas
-            user.dumper("users", users)
-            signin.dir_signer()
-            window6.close()
-            window1.show()
-        else:
-            window7.show()
+        if signin.invalids():
+            self.usr = window6.username.text()
+            self.pas = argon2.PasswordHasher().hash(str(window6.pas.text()))
+            if users.get(self.usr, None) == None:
+                users[self.usr] = self.pas
+                user.dumper("users", users)
+                signin.dir_signer()
+                window6.close()
+                window1.show()
+            else:
+                window6.inv_user.setText("Username Already in use / Try a diffrent one")
+                window6.username.setStyleSheet("QLineEdit {border: 1px solid red;}")
+                
 
     def main_signer(self):
         window6.show()
-        
+
+    def invalids(self):    #No bugs, but its not clean
+        invalid_style = "QLineEdit {border: 1px solid red;}"
+        flag = True
+        if window6.username.text() == "":
+            window6.inv_user.setText("Invalid Username")
+            window6.username.setStyleSheet(invalid_style)
+            flag = False
+        else:
+            window6.username.setStyleSheet("")
+            window6.inv_user.clear()
+
+        if window6.pas.text() == "":
+            window6.inv_pas.setText("Habibi Try a Harder Password")
+            window6.pas.setStyleSheet(invalid_style)
+            flag = False
+        else:
+            window6.inv_pas.clear()
+            window6.pas.setStyleSheet("")
+
+        if window6.name.text() == "":
+            window6.inv_name.setText("Dont you have a name???")
+            window6.name.setStyleSheet(invalid_style)
+            flag = False
+        else:
+            window6.inv_name.clear()
+            window6.name.setStyleSheet("")
+
+        if window6.lastname.text() == "":
+            window6.inv_last.setText("We need you lastname!(For educational purposes only)")
+            window6.lastname.setStyleSheet(invalid_style)
+            flag = False
+        else:
+            window6.inv_last.clear()
+            window6.lastname.setStyleSheet("")
+            
+        return flag
 
 
 
@@ -644,12 +683,6 @@ window6 = loader.load(ui_file6)
 window6.conf.clicked.connect(signin.user_signer)
 ui_file6.close()
 
-ui_file7 = QFile(resource_path("ui", "usernameERR.ui"))
-ui_file7.open(QFile.ReadOnly) 
-window7 = loader.load(ui_file7)
-window7.ok.clicked.connect(window7.close)
-ui_file7.close()
-
 ui_file8 = QFile(resource_path("ui", "cancel.ui"))
 ui_file8.open(QFile.ReadOnly) 
 window8 = loader.load(ui_file8)
@@ -676,7 +709,7 @@ ui_file11.close()
 
 
 
-windows = [window1, window2, window3, window4, window5, window6, window7, window8, window9, window10, window11]
+windows = [window1, window2, window3, window4, window5, window6, window8, window9, window10, window11]
 if __name__ == "__main__":  # ...
     window1.show()
     app.exec()
